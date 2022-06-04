@@ -2,49 +2,42 @@
 <html lang="en">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register Page</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
 
-  <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
 
-  <!-- font awesome link  -->
+    <!-- font awesome link  -->
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-          href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=Red+Hat+Display&display=swap"
-          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=Red+Hat+Display&display=swap"
+            rel="stylesheet">
 
 </head>
 <body>
 <div class="container">
-  <form th:action="@{/auth/create}", method="post" >
-    <div class="register-text">
-      <h3>Register</h3>
-      <p>Please register using your details bellow</p>
-    </div>
-<!--    <div class="goBack" id="link">-->
-<!--      <a th:href="@{/project/index}">Back</a>-->
-<!--      <a href="#">Login</a>-->
-<!--    </div>-->
-<!--    <div class="login-text">-->
-<!--      <h3><a href="#">Add New User</a></h3>-->
-<!--    </div>-->
+    <form th:action="@{/auth/register}" method="post">
+        <div class="register-text">
+            <h3>Register</h3>
+            <p>Please register using your details bellow</p>
+        </div>
+        <div class="register-input">
+            <label>
+                <input type="text" placeholder="Enter your name" name="name"/>
+                <input type="text" placeholder="Enter your email" name="email"/>
+                <input type="password" placeholder="Enter your password" name="password"/>
+            </label>
+        </div>
+        <div class="register-button">
+            <button type="submit">Sign Up</button>
+            <p>Do have an account already? <a th:href="@{/auth/login}" th:method="GET">Sign in</a></p>
+        </div>
 
-    <div class="login-input">
-      <input type="text" placeholder="Enter your name" name="name"/>
-      <input type="text" placeholder="Enter your email" name="email"/>
-      <input type="password" placeholder="Enter your password"  name="password"/>
-    </div>
-
-    <div class="register-button">
-      <button type="submit">Sign Up</button>
-      <p>Do have an account already? <a th:href="@{/auth/login}" th:method="GET">Sign in</a></p>
-    </div>
-
-  </form>
+    </form>
 </div>
 </body>
 </html>

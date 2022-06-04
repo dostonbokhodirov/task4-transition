@@ -1,20 +1,17 @@
 package intern.task4.authorization.config.security;
 
 import intern.task4.authorization.entity.AuthUser;
+import intern.task4.authorization.enums.Status;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
-    private String email;
-    private String password;
-    private boolean active;
+    private final AuthUser authUser;
 
 
     public UserDetails(AuthUser user) {
-        this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.active = user.getIsActive();
+        this.authUser = user;
     }
 
 
@@ -25,31 +22,31 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.authUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.authUser.getName();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return authUser.getStatus().equals(Status.ACTIVE);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return authUser.getStatus().equals(Status.ACTIVE);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return authUser.getStatus().equals(Status.ACTIVE);
     }
 
     @Override
     public boolean isEnabled() {
-        return this.active;
+        return this.authUser.getStatus() == Status.ACTIVE;
     }
 }

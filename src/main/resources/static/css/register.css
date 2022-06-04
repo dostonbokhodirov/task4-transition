@@ -33,14 +33,14 @@
     text-decoration: none;
 }
 
-.login-text h3 {
+.register-text h3 {
     font-family: Josefin Sans;
     font-size: 32px;
     line-height: 37px;
     color: #000000;
 }
 
-.login-text p {
+.register-text p {
     font-family: Josefin Sans;
     font-style: normal;
     font-weight: normal;
@@ -50,7 +50,7 @@
     margin: 7px 0 37px 0;
 }
 
-.login-input input {
+.register-input input {
     display: block;
     margin: 23px auto;
     padding: 15px 0 18px 13px;
@@ -63,7 +63,7 @@
     outline: none;
 }
 
-.login-input input::placeholder {
+.register-input input::placeholder {
     font-family: Josefin Sans;
     font-style: normal;
     font-weight: normal;
@@ -72,7 +72,7 @@
     color: #9096b2;
 }
 
-.login-input p {
+.register-input p {
     font-family: Josefin Sans;
     font-style: normal;
     font-weight: normal;
@@ -110,7 +110,7 @@
         width: 350px;
         padding: 55px 10px;
     }
-    .login-input input {
+    .register-input input {
         width: 100%;
     }
 }

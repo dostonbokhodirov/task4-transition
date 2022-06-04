@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 )
 public class SecurityConfigurer  {
     public static final String[] WHITE_LIST = {
-            "/auth/login","/auth/register"
+            "/auth/login","/auth/register", "/auth/home"
     };
 
     public static final String[] WHITE_LIST_RESOURCES = {
@@ -37,7 +37,7 @@ public class SecurityConfigurer  {
                 .formLogin(httpSecurityFormLoginConfigurer ->
                         httpSecurityFormLoginConfigurer
                                 .loginPage("/auth/login")
-                                .defaultSuccessUrl("/home/", false)
+                                .defaultSuccessUrl("/auth/home", true)
                                 .loginProcessingUrl("/auth/login")
                 )
                 .logout(httpSecurityLogoutConfigurer ->

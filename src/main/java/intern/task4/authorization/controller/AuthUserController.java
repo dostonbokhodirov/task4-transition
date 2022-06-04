@@ -1,6 +1,5 @@
 package intern.task4.authorization.controller;
 
-import intern.task4.authorization.dto.AuthUserCreateDto;
 import intern.task4.authorization.dto.AuthUserUpdateDto;
 import intern.task4.authorization.dto.LoginDto;
 import intern.task4.authorization.entity.AuthUser;
@@ -17,16 +16,15 @@ public class AuthUserController {
 
     private final AuthUserService authUserService;
 
-    @GetMapping({"/","", "/login"})
+    @GetMapping({"/", "", "/login"})
     public String loginPage() {
         return "auth/login";
     }
 
-    @PostMapping( "/login")
-    public String login(@ModelAttribute LoginDto dto) {
-        authUserService.login(dto);
-        return "auth/index";
-    }
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute LoginDto dto) {
+//        return authUserService.login(dto) ? "/auth/home" : "redirect:/auth/login";
+//    }
 
     @GetMapping("/logout")
     public String logoutPage() {
@@ -34,52 +32,33 @@ public class AuthUserController {
     }
 
     @GetMapping("/register")
-    public String registrationPage() {
+    public String registerPage() {
         return "auth/register";
     }
 
     @PostMapping(value = "/register")
-    public String create(@ModelAttribute AuthUser authUser) {
+    public String register(@ModelAttribute AuthUser authUser) {
         authUserService.create(authUser);
         return "auth/login";
     }
 
-    @GetMapping("/detail/{id}/")
-    public String detail(@PathVariable(name = "id") Long id, Model model) {
-        model.addAttribute("user", authUserService.get(id));
-        return "user/detail";
-    }
-
-    @GetMapping(value = "/contacts")
-    public String listPage(Model model) {
-        model.addAttribute("users", authUserService.getAll(1L));
-        return "auth/users";
-    }
-
-    @GetMapping(value = "/users/{organization_id}")
-    public String listPage(@PathVariable(name = "organization_id")Long id, Model model) {
-        model.addAttribute("users", authUserService.getAll(id));
-        return "auth/users";
-    }
-
-
-    @GetMapping(value = "/update/{id}/")
-    public String updatePage(Model model, @PathVariable(name = "id") Long id) {
-        model.addAttribute("user", authUserService.get(id));
-        return "user/update";
-    }
-
-    @PatchMapping(value = "/update/{id}/")
-    public String update(@ModelAttribute AuthUserUpdateDto dto) {
-        authUserService.update(dto);
-        return "redirect:/";
+    @GetMapping(value = "/home")
+    public String homePage(Model model) {
+        model.addAttribute("users", authUserService.getAll());
+        return "auth/index";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deletePage(Model model, @PathVariable(name = "id") Long id) {
+        authUserService.delete(id);
         model.addAttribute("user", authUserService.get(id));
-        return "user/delete";
+        return "redirect:auth/index";
     }
 
+    @GetMapping(value = "/block/{id}")
+    public String blockPage(Model model, @PathVariable(name = "id") Long id) {
+        model.addAttribute("user", authUserService.get(id));
+        return "auth/block";
+    }
 
 }

@@ -23,46 +23,27 @@
 
 <body>
 <div class="container">
-<!--    <div class="goBack" id="link">-->
-<!--        <a href="#">Back</a>-->
-<!--        <a href="#">Register</a>-->
-<!--    </div>-->
     <div class="login-text">
         <h3>Login</h3>
         <p>Please login using account detail bellow</p>
     </div>
-
     <form name="f" th:action="@{/auth/login}" th:method="POST" onsubmit="validate()">
         <div class="login-input">
-
-            <input type="text" placeholder="User Name" name="username"/>
-
+            <label>
+                <input type="text" placeholder="User Name" name="username"/>
+            </label>
             <div class="password">
                 <i class="fas"></i>
-
-                <input type="password" placeholder="Password" class="InputPassword" name="password"/>
-
+                <label>
+                    <input type="password" placeholder="Password" class="InputPassword" name="password"/>
+                </label>
             </div>
-
-<!--            <div class="forgot">-->
-<!--                <p>Forgot your password?</p>-->
-
-<!--                <div>-->
-<!--                    <label>Remember Me</label>-->
-<!--                    <input type="checkbox">-->
-<!--                </div>-->
-
-<!--            </div>-->
-
         </div>
-
         <div class="login-button">
             <button type="submit">Sign In</button>
             <p>Don’t have an Account? <a th:href="@{/auth/register}" th:method="GET">Sign up</a></p>
         </div>
-
     </form>
-
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -81,7 +62,7 @@
         passwordEye.classList.toggle("fa-eye-slash")
         passwordEye.classList.add("fa-eye")
 
-        if (passwordEye.classList.value != "fas fa-eye fa-eye-slash") {
+        if (passwordEye.classList.value !== "fas fa-eye fa-eye-slash") {
             console.log("fa-eye")
             InputPassword.type = "text"
 
