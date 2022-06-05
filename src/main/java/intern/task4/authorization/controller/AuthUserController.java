@@ -1,13 +1,13 @@
 package intern.task4.authorization.controller;
 
-import intern.task4.authorization.dto.AuthUserUpdateDto;
-import intern.task4.authorization.dto.LoginDto;
 import intern.task4.authorization.entity.AuthUser;
 import intern.task4.authorization.service.AuthUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/auth")
@@ -20,11 +20,6 @@ public class AuthUserController {
     public String loginPage() {
         return "auth/login";
     }
-
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute LoginDto dto) {
-//        return authUserService.login(dto) ? "/auth/home" : "redirect:/auth/login";
-//    }
 
     @GetMapping("/logout")
     public String logoutPage() {
@@ -49,16 +44,15 @@ public class AuthUserController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String deletePage(Model model, @PathVariable(name = "id") Long id) {
+    public String deletePage(HttpServletRequest request, @PathVariable(name = "id") Long id) {
         authUserService.delete(id);
-        model.addAttribute("user", authUserService.get(id));
-        return "redirect:auth/index";
+        return "redirect:" + request.getHeader("Referer");
     }
 
-    @GetMapping(value = "/block/{id}")
-    public String blockPage(Model model, @PathVariable(name = "id") Long id) {
-        model.addAttribute("user", authUserService.get(id));
-        return "auth/block";
+    @GetMapping(value = {"/block/{id}", "/unblock/{id}"})
+    public String blockPage(HttpServletRequest request, @PathVariable(name = "id") Long id) {
+        authUserService.blockOrUnblock(id);
+        return "redirect:" + request.getHeader("Referer");
     }
 
 }

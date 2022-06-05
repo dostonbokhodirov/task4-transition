@@ -1,7 +1,6 @@
 package intern.task4.authorization.service;
 
 import intern.task4.authorization.config.security.UserDetails;
-import intern.task4.authorization.dto.LoginDto;
 import intern.task4.authorization.entity.AuthUser;
 import intern.task4.authorization.enums.Status;
 import intern.task4.authorization.repository.AuthUserRepository;
@@ -34,34 +33,27 @@ public class AuthUserService implements UserDetailsService {
 
     public void create(AuthUser authUser) {
         Optional<AuthUser> optional = authUserRepository.findByEmail(authUser.getEmail());
-        if (optional.isPresent()) {
-            return;
-        }
+        if (optional.isPresent()) return;
         String encodedPassword = encoder.encode(authUser.getPassword());
         authUser.setPassword(encodedPassword);
         authUserRepository.save(authUser);
-    }
-
-    public void blockOrUnblock(Long id) {
-        AuthUser authUser = authUserRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
-        authUserRepository.save(authUser);
-    }
-
-    public AuthUser get(Long id) {
-        return authUserRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public List<AuthUser> getAll() {
         return authUserRepository.findAll();
     }
 
-    public boolean login(LoginDto dto) {
-        Optional<AuthUser> optional = authUserRepository.findByEmail(dto.email);
-        return optional.isPresent() && encoder.matches(dto.password, optional.get().getPassword());
-    }
-
     public void delete(Long id) {
         authUserRepository.deleteById(id);
     }
+
+    public void blockOrUnblock(Long id) {
+        Optional<AuthUser> optional = authUserRepository.findById(id);
+        if (optional.isPresent()) {
+            AuthUser authUser = optional.get();
+            authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
+            authUserRepository.save(authUser);
+        }
+    }
+
 }
