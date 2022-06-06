@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,12 +26,9 @@ public class AuthUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AuthUser user = authUserRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Bad Credentials"));
-        if (Objects.isNull(user)) {
-            throw new RuntimeException("USER_NOT_FOUND");
-        }
-        return new UserDetails(user);
+        Optional<AuthUser> optional = authUserRepository.findByEmail(email);
+        if (optional.isPresent()) return new UserDetails(optional.get());
+        throw new RuntimeException("USER_NOT_FOUND");
     }
 
     public void create(AuthUser authUser) {
@@ -53,13 +49,17 @@ public class AuthUserService implements UserDetailsService {
 
     public void blockOrUnblock(Long id) {
         Optional<AuthUser> optional = getAuthUserByIdAndCheckExistence(id);
-        AuthUser authUser = optional.get();
-        authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
-        authUserRepository.save(authUser);
+        if (optional.isPresent()) {
+            AuthUser authUser = optional.get();
+            authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
+            authUserRepository.save(authUser);
+        }
     }
 
     private Optional<AuthUser> getAuthUserByIdAndCheckExistence(Long id) {
-        return Optional.ofNullable(authUserRepository.findById(id).orElseThrow(() -> new RuntimeException("Bad Credentials")));
+        Optional<AuthUser> optional = authUserRepository.findById(id);
+        if (optional.isPresent()) return optional;
+        throw new RuntimeException("USER_NOT_FOUND");
     }
 
     public void blockOrUnblock(List<Long> ids) {
