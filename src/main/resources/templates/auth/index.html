@@ -9,7 +9,8 @@
         <div class="row">
             <div class="col-10 mx-auto">
                 <h1 class="h1">User List Page</h1>
-                <form action="#" th:action="@{/auth/submitQuery}" th:object="${wrapper}" method="post">
+                <form id="user-list" action="#" th:action="@{/auth/block-users}" method="post"
+                      th:object="${requestIds}">
                     <table class="table">
                         <thead class="table-header">
                         <tr>
@@ -23,8 +24,8 @@
                         <tbody>
                         <tr th:each="user,iter : ${users}">
                             <td><label>
-                                <input type="checkbox"
-                                       th:value="${user.id}" th:checked="${user.selected}"/>
+                                <input type="checkbox" name="userId" data-target="requests-all"
+                                       th:value="${user.id}"/>
                             </label>
                             </td>
                             <td th:text="${iter.count}"></td>
@@ -40,7 +41,17 @@
                     </table>
                     <button type="submit" value="submit" class="btn btn-success">Submit</button>
                 </form>
-
+                <script>
+                    $(document).ready(function () {
+                        $('button').click(function (e) {
+                            if (!(confirm("Are you sure you wish to process these requests"))) {
+                                e.preventDefault();
+                            } else {
+                                $("#user-list").submit();
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

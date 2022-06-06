@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,8 +41,9 @@ public class AuthUserController {
     }
 
     @GetMapping(value = "/home")
-    public String homePage(Model model) {
+    public String homePage(Model model, ModelAndView modelAndView) {
         model.addAttribute("users", authUserService.getAll());
+        modelAndView.addObject("requestIds", new ArrayList<Long>());
         return "auth/index";
     }
 
@@ -62,8 +65,8 @@ public class AuthUserController {
         return "redirect:" + request.getHeader("Referer");
     }
 
-    @GetMapping(value = {"/block-users", "/unblock-users"})
-    public String blockUsers(HttpServletRequest request,@RequestBody List<Long> ids) {
+    @PostMapping(value = {"/block-users", "/unblock-users"})
+    public String blockUsers(HttpServletRequest request, @ModelAttribute("requestIds") ArrayList<Long> ids) {
         authUserService.blockOrUnblock(ids);
         return "redirect:" + request.getHeader("Referer");
     }

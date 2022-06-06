@@ -13,9 +13,4 @@ public class AuthorizationApplication {
         SpringApplication.run(AuthorizationApplication.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(8);
-    }
-
 }
