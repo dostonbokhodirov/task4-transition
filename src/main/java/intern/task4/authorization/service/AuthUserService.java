@@ -4,7 +4,6 @@ import intern.task4.authorization.config.security.UserDetails;
 import intern.task4.authorization.entity.AuthUser;
 import intern.task4.authorization.enums.Status;
 import intern.task4.authorization.repository.AuthUserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +14,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class AuthUserService implements UserDetailsService {
 
     private final AuthUserRepository authUserRepository;
     private final PasswordEncoder encoder;
+
+    public AuthUserService(AuthUserRepository authUserRepository,
+                           PasswordEncoder encoder) {
+        this.authUserRepository = authUserRepository;
+        this.encoder = encoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -48,12 +52,27 @@ public class AuthUserService implements UserDetailsService {
     }
 
     public void blockOrUnblock(Long id) {
-        Optional<AuthUser> optional = authUserRepository.findById(id);
-        if (optional.isPresent()) {
-            AuthUser authUser = optional.get();
-            authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
-            authUserRepository.save(authUser);
+        Optional<AuthUser> optional = getAuthUserByIdAndCheckExistence(id);
+        AuthUser authUser = optional.get();
+        authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
+        authUserRepository.save(authUser);
+    }
+
+    private Optional<AuthUser> getAuthUserByIdAndCheckExistence(Long id) {
+        return Optional.ofNullable(authUserRepository.findById(id).orElseThrow(() -> new RuntimeException("Bad Credentials")));
+    }
+
+    public void blockOrUnblock(List<Long> ids) {
+        for (Long id : ids) {
+            getAuthUserByIdAndCheckExistence(id);
+            blockOrUnblock(id);
         }
     }
 
+    public void delete(List<Long> ids) {
+        for (Long id : ids) {
+            getAuthUserByIdAndCheckExistence(id);
+            delete(id);
+        }
+    }
 }
