@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/auth")
@@ -44,14 +45,26 @@ public class AuthUserController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String deletePage(HttpServletRequest request, @PathVariable(name = "id") Long id) {
+    public String delete(HttpServletRequest request, @PathVariable(name = "id") Long id) {
+        authUserService.delete(id);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @GetMapping(value = "/delete-list")
+    public String delete(HttpServletRequest request, @RequestBody List<Long> id) {
         authUserService.delete(id);
         return "redirect:" + request.getHeader("Referer");
     }
 
     @GetMapping(value = {"/block/{id}", "/unblock/{id}"})
-    public String blockPage(HttpServletRequest request, @PathVariable(name = "id") Long id) {
+    public String block(HttpServletRequest request, @PathVariable(name = "id") Long id) {
         authUserService.blockOrUnblock(id);
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @GetMapping(value = {"/block-users", "/unblock-users"})
+    public String blockUsers(HttpServletRequest request,@RequestBody List<Long> ids) {
+        authUserService.blockOrUnblock(ids);
         return "redirect:" + request.getHeader("Referer");
     }
 
