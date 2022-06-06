@@ -41,4 +41,7 @@ public class AuthUser {
     @Enumerated(value = EnumType.STRING)
     private Status status = Status.ACTIVE;
 
+    @Column
+    private boolean selected;
+
 }

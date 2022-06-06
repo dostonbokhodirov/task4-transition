@@ -9,28 +9,38 @@
         <div class="row">
             <div class="col-10 mx-auto">
                 <h1 class="h1">User List Page</h1>
-                <table class="table">
-                    <thead class="table-header">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="user,iter : ${users}">
-                        <td th:text="${iter.count}"></td>
-                        <td th:text="${user.name}"></td>
-                        <td th:text="${user.email}"></td>
-                        <td>
-                            <a th:href="@{/auth/block/{id}(id = ${user.id})}" class="btn btn-danger">Block </a>
-                            <a th:href="@{/auth/unblock/{id}(id = ${user.id})}"> 🔓 </a>
-                            <a th:href="@{/auth/delete/{id}(id = ${user.id})}"> ❌</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <form action="#" th:action="@{/auth/submitQuery}" th:object="${wrapper}" method="post">
+                    <table class="table">
+                        <thead class="table-header">
+                        <tr>
+                            <th>Select</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user,iter : ${users}">
+                            <td><label>
+                                <input type="checkbox"
+                                       th:value="${user.id}" th:checked="${user.selected}"/>
+                            </label>
+                            </td>
+                            <td th:text="${iter.count}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td>
+                                <a th:href="@{/auth/block/{id}(id = ${user.id})}" class="btn btn-danger">Block </a>
+                                <a th:href="@{/auth/unblock/{id}(id = ${user.id})}"> 🔓 </a>
+                                <a th:href="@{/auth/delete/{id}(id = ${user.id})}"> ❌</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+                </form>
+
             </div>
         </div>
     </div>
