@@ -78,8 +78,6 @@
                         e.preventDefault();
                         let selectedOptions = document.forms[0];
                         let ids = [];
-                        let token = getCsrfToken();
-                        let name = getCsrfTokenName();
                         for (let i = 0; i < selectedOptions.length; i++) {
                             if (selectedOptions[i].checked) {
                                 ids.push(selectedOptions[i].value);
