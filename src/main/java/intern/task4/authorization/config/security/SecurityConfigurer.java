@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 )
 public class SecurityConfigurer  {
     public static final String[] WHITE_LIST = {
-            "/auth/login","/auth/register", "/auth/home"
+            "/auth/login","/auth/register", "/auth/home","/auth/block-users"
     };
 
     public static final String[] WHITE_LIST_RESOURCES = {

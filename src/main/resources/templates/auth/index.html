@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments.html :: header('User List Page')"><title>User List Page</title></head>
+<head th:include="fragments.html :: header('User List Page')">
+    <title>User List Page</title>
+</head>
 <body>
 <header th:include="fragments.html :: navbar"></header>
 
@@ -14,11 +16,16 @@
                     <table class="table">
                         <thead class="table-header">
                         <tr>
-                            <th>Select</th>
+                            <th>Select All <input type="checkbox" onclick="toggle(this)"></th>
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Action</th>
+                            <th>
+                                <a th:href="@{/auth/block-user}" onclick="validateForm(event);" class="btn btn-danger">Block </a>
+                                <!--                                <a th:href="@{/auth/unblock/{id}(id = ${user.id})}"> 🔓 </a>-->
+                                <!--                                <a th:href="@{/auth/delete/{id}(id = ${user.id})}"> ❌</a>-->
+
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,9 +46,14 @@
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+
+                    <button type="submit" value="submit" onclick="validateForm(event)" class="btn btn-success">Submit
+                    </button>
+
                 </form>
-                <script>
+
+                <script type="text/javascript">
+
                     $(document).ready(function () {
                         $('button').click(function (e) {
                             if (!(confirm("Are you sure you wish to process these requests"))) {
@@ -51,6 +63,41 @@
                             }
                         });
                     });
+
+
+                    function toggle(source) {
+                        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                        for (let i = 0; i < checkboxes.length; i++) {
+                            if (checkboxes[i] != source)
+                                checkboxes[i].checked = source.checked;
+                        }
+                    }
+
+
+                    function validateForm(e) {
+                        e.preventDefault();
+                        let selectedOptions = document.forms[0];
+                        let ids = [];
+                        let token = getCsrfToken();
+                        let name = getCsrfTokenName();
+                        for (let i = 0; i < selectedOptions.length; i++) {
+                            if (selectedOptions[i].checked) {
+                                ids.push(selectedOptions[i].value);
+                            }
+                        }
+
+
+                        fetch("http://localhost:8080/auth/block-users", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Cookie': new Headers[[name, token]]
+                            },
+                            body: JSON.stringify(ids)
+                        });
+                        console.log(ids);
+                    }
+
                 </script>
             </div>
         </div>

@@ -61,12 +61,11 @@ public class AuthUserController {
 
     @GetMapping(value = {"/block/{id}", "/unblock/{id}"})
     public String block(HttpServletRequest request, @PathVariable(name = "id") Long id) {
-        authUserService.blockOrUnblock(id);
-        return "redirect:" + request.getHeader("Referer");
+       return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping(value = {"/block-users", "/unblock-users"})
-    public String blockUsers(HttpServletRequest request, @ModelAttribute("requestIds") ArrayList<Long> ids) {
+    public String blockUsers(HttpServletRequest request, @ModelAttribute("ids") ArrayList<Long> ids) {
         authUserService.blockOrUnblock(ids);
         return "redirect:" + request.getHeader("Referer");
     }
