@@ -1,4 +1,4 @@
-package intern.task4.authorization.entity;
+package intern.task4.authorization.authUser;
 
 import intern.task4.authorization.enums.Status;
 import lombok.*;
@@ -40,8 +40,5 @@ public class AuthUser {
     @Column
     @Enumerated(value = EnumType.STRING)
     private Status status = Status.ACTIVE;
-
-    @Column
-    private boolean selected;
 
 }
