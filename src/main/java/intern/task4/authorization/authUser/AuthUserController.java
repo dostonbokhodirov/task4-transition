@@ -1,7 +1,5 @@
-package intern.task4.authorization.controller;
+package intern.task4.authorization.authUser;
 
-import intern.task4.authorization.entity.AuthUser;
-import intern.task4.authorization.service.AuthUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

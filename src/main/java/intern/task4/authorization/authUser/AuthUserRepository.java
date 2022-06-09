@@ -1,8 +1,6 @@
-package intern.task4.authorization.repository;
+package intern.task4.authorization.authUser;
 
-import intern.task4.authorization.entity.AuthUser;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 

@@ -1,9 +1,7 @@
-package intern.task4.authorization.service;
+package intern.task4.authorization.authUser;
 
 import intern.task4.authorization.config.security.UserDetails;
-import intern.task4.authorization.entity.AuthUser;
 import intern.task4.authorization.enums.Status;
-import intern.task4.authorization.repository.AuthUserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
