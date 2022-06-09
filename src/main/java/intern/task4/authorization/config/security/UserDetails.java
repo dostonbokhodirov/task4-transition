@@ -1,6 +1,6 @@
 package intern.task4.authorization.config.security;
 
-import intern.task4.authorization.entity.AuthUser;
+import intern.task4.authorization.authUser.AuthUser;
 import intern.task4.authorization.enums.Status;
 import org.springframework.security.core.GrantedAuthority;
 
