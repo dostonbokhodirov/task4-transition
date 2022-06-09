@@ -16,9 +16,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
         securedEnabled = true,
         jsr250Enabled = true
 )
-public class SecurityConfigurer  {
+public class SecurityConfigurer {
     public static final String[] WHITE_LIST = {
-            "/auth/login","/auth/register", "/auth/home","/auth/block-users"
+            "/auth/login", "/auth/register", "/auth/block-users"
     };
 
     public static final String[] WHITE_LIST_RESOURCES = {
@@ -52,7 +52,7 @@ public class SecurityConfigurer  {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) ->web.ignoring().antMatchers(WHITE_LIST_RESOURCES);
+        return (web) -> web.ignoring().antMatchers(WHITE_LIST_RESOURCES);
     }
 
 

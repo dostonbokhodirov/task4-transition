@@ -15,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AuthUserController {
 
     private final AuthUserService authUserService;
@@ -66,6 +67,7 @@ public class AuthUserController {
 
     @PostMapping(value = {"/block-users", "/unblock-users"})
     public String blockUsers(HttpServletRequest request, @ModelAttribute("ids") ArrayList<Long> ids) {
+        System.out.println(request);
         authUserService.blockOrUnblock(ids);
         return "redirect:" + request.getHeader("Referer");
     }
