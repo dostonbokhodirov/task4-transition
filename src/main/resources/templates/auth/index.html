@@ -2,6 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments.html :: header('User List Page')">
     <title>User List Page</title>
+    <style>
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 <header th:include="fragments.html :: navbar"></header>
@@ -11,7 +16,7 @@
         <div class="row">
             <div class="col-10 mx-auto">
                 <h1 class="h1">User List Page</h1>
-                <form id="user-list" th:action="@{/auth/block-users}" method="post">
+                <form id="user-list" th:action="@{/auth/update}" method="post">
                     <table class="table">
                         <thead class="table-header">
                         <tr>
@@ -24,26 +29,20 @@
                         <tbody>
                         <tr th:each="user,iter : ${users}">
                             <td><label>
-                                <input type="checkbox" name="ids" data-target="requests-all"
-                                       th:value="${user.id}"/>
+                                <input type="checkbox" name="ids" th:value="${user.id}"/>
                             </label>
                             </td>
                             <td th:text="${iter.count}"></td>
                             <td th:text="${user.name}"></td>
                             <td th:text="${user.email}"></td>
-                            <td>
-                                <a th:href="@{/auth/block/{id}(id = ${user.id})}" class="btn btn-danger">Block </a>
-                                <a th:href="@{/auth/unblock/{id}(id = ${user.id})}"> 🔓 </a>
-                                <a th:href="@{/auth/delete/{id}(id = ${user.id})}"> ❌</a>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" value="submit" class="btn btn-success">Block</button>
+                    <button name="name" type="submit" value="submit" class="btn btn-danger">Block</button>
+                    <input name="name" type="submit" value="🔓">
+                    <input name="name" type="submit" value="❌">
                 </form>
-
                 <script type="text/javascript">
-
                     $(document).ready(function () {
                         $('button').click(function (e) {
                             if (!(confirm("Are you sure you wish to process these requests"))) {
@@ -61,45 +60,6 @@
                             if (checkboxes[i] != source)
                                 checkboxes[i].checked = source.checked;
                         }
-                    }
-
-
-                    function validateForm(e) {
-                        e.preventDefault();
-                        let selectedOptions = document.forms[0];
-                        let ids = [];
-                        for (let i = 0; i < selectedOptions.length; i++) {
-                            if (selectedOptions[i].checked) {
-                                ids.push(selectedOptions[i].value);
-                            }
-                        }
-
-                        console.log(ids);
-                        // fetch("http://localhost:8080/auth/block-users", {
-                        //     method: 'POST',
-                        //     headers: {
-                        //         'Content-Type': 'application/json'
-                        //     },
-                        //     body: JSON.stringify(ids)
-                        // }).then(response => response.json())
-                        //     .then(data => {
-                        //         console.log('Success:', data);
-                        //     })
-                        //     .catch((error) => {
-                        //         console.error('Error:', error);
-                        //     });
-                    }
-
-                    function submit() {
-                        var xhr = new XMLHttpRequest();
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4) {
-                                alert(xhr.response);
-                            }
-                        }
-                        xhr.open('post', 'http://localhost:8080/auth/block-users', true);
-                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                        xhr.send();
                     }
                 </script>
             </div>

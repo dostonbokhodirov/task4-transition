@@ -45,10 +45,6 @@ public class AuthUserService implements UserDetailsService {
         return authUserRepository.findAll();
     }
 
-    public void delete(Long id) {
-        authUserRepository.deleteById(id);
-    }
-
     public void blockOrUnblock(Long id) {
         Optional<AuthUser> optional = getAuthUserByIdAndCheckExistence(id);
         if (optional.isPresent()) {
@@ -72,7 +68,11 @@ public class AuthUserService implements UserDetailsService {
     public void delete(List<Long> ids) {
         for (Long id : ids) {
             getAuthUserByIdAndCheckExistence(id);
-            delete(id);
+            authUserRepository.deleteById(id);
         }
+    }
+
+    public Long getIdByName(String name) {
+        return authUserRepository.findByName(name).getId();
     }
 }
