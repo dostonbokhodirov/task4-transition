@@ -59,6 +59,7 @@ public class AuthUserController {
 
     @GetMapping(value = {"/block/{id}", "/unblock/{id}"})
     public String block(HttpServletRequest request, @PathVariable(name = "id") Long id) {
+        authUserService.blockOrUnblock(id);
        return "redirect:" + request.getHeader("Referer");
     }
 

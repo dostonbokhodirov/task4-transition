@@ -51,9 +51,11 @@ public class AuthUserService implements UserDetailsService {
 
     public void blockOrUnblock(Long id) {
         Optional<AuthUser> optional = getAuthUserByIdAndCheckExistence(id);
-        AuthUser authUser = optional.get();
-        authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
-        authUserRepository.save(authUser);
+        if (optional.isPresent()) {
+            AuthUser authUser = optional.get();
+            authUser.setStatus(authUser.getStatus().equals(Status.ACTIVE) ? Status.BLOCKED : Status.ACTIVE);
+            authUserRepository.save(authUser);
+        }
     }
 
     private Optional<AuthUser> getAuthUserByIdAndCheckExistence(Long id) {
